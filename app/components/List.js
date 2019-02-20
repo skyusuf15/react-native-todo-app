@@ -13,7 +13,7 @@ import {
     itemListTextStrike,
     circleActive,
     circleInactive,
-    deleteIconColor
+    deleteIconColor 
 } from '../utils/Colors';
 
 const { height, width } = Dimensions.get('window');
