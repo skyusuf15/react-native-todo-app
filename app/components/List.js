@@ -12,7 +12,7 @@ import {
     itemListText,
     itemListTextStrike,
     circleActive,
-    circleInactive,
+    circleInactive, 
     deleteIconColor 
 } from '../utils/Colors';
 
