@@ -5,6 +5,7 @@ const Header = ({ title }) => (
         <Text style={styles.headerText}> { title.toUpperCase() } </Text>
     </View>
 );
+
 const styles = StyleSheet.create({
     headerContainer: {
         marginTop: 40
