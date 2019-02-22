@@ -16,9 +16,15 @@ To install expo-cli, please run the following command.
 
 ### To run
 `expo-cli start`
+
 OR
+
 `expo start`
+
 OR
+
 `npm start`
+
 and finally if it's yarn implementation
-'yarn install'
+
+`yarn install`
