@@ -54,7 +54,7 @@ class List extends Component {
 										textDecorationLine: 'line-through'
 								  }
 								: { color: itemListText }
-						]}
+					]}
 					>
 						{text}
 					</Text>
