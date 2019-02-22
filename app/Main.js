@@ -4,10 +4,10 @@ import { LinearGradient } from 'expo';
 import uuid from 'uuid/v1';
 import { primaryGradientArray } from './utils/Colors'; 
 import Header from './components/Header';
-// import SubTitle from './components/SubTitle';
+import SubTitle from './components/SubTitle';
 import Input from './components/Input';
 import List from './components/List';
-// import Button from './components/Button';
+import Button from './components/Button';
 
 const headerTitle = 'To Do';
 
