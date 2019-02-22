@@ -4,7 +4,7 @@ import { lighterWhite } from '../utils/Colors';
 
 const SubTitle = ({ subtitle }) => (
     <Text style={[styles.titleText, { color: lighterWhite}]}>
-        {subtitle.upperCase()}
+        {subtitle.toUpperCase()}
     </Text>
 );
 

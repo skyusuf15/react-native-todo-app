@@ -3,11 +3,11 @@ import { StyleSheet, View, StatusBar, ActivityIndicator, ScrollView, AsyncStorag
 import { LinearGradient } from 'expo';
 import uuid from 'uuid/v1';
 import { primaryGradientArray } from './utils/Colors'; 
-import Header from './components/Header';
+import Header   from './components/Header';
 import SubTitle from './components/SubTitle';
-import Input from './components/Input';
-import List from './components/List';
-import Button from './components/Button';
+import Input    from './components/Input';
+import List     from './components/List';
+import Button   from './components/Button';
 
 const headerTitle = 'To Do';
 
@@ -65,7 +65,7 @@ export default class Main extends React.Component {
     };
     deleteItem = id => {
         this.setState(prevState => {
-            const allItems = prevState.alignItems;
+            const allItems = prevState.allItems;
             delete allItems[id];
             const newState = {
                 ...prevState,
@@ -75,9 +75,6 @@ export default class Main extends React.Component {
             return { ...newState };
         });
     };
-
-    
-
     completeItem = id => {
         this.setState(prevState => {
           const newState = {
@@ -93,38 +90,37 @@ export default class Main extends React.Component {
           this.saveItems(newState.allItems);
           return { ...newState };
         });
-      };
-      incompleteItem = id => {
-        this.setState(prevState => {
-          const newState = {
-            ...prevState,
-            allItems: {
-              ...prevState.allItems,
-              [id]: {
-                ...prevState.allItems[id],
-                isCompleted: false
-              }
+    };
+    incompleteItem = id => {
+    this.setState(prevState => {
+        const newState = {
+        ...prevState,
+        allItems: {
+            ...prevState.allItems,
+            [id]: {
+            ...prevState.allItems[id],
+            isCompleted: false
             }
-          };
-          this.saveItems(newState.allItems);
-          return { ...newState };
-        });
-      };
-      deleteAllItems = async () => {
-        try {
-          await AsyncStorage.removeItem('ToDos');
-          this.setState({ allItems: {} });
-        } catch (err) {
-          console.log(err);
         }
-      };
-      saveItems = newItem => {
+        };
+        this.saveItems(newState.allItems);
+        return { ...newState };
+    });
+    };
+    deleteAllItems = async () => {
+    try {
+        await AsyncStorage.removeItem('ToDos');
+        this.setState({ allItems: {} });
+    } catch (err) {
+        console.log(err);
+    }
+    };
+    saveItems = newItem => {
         const saveItem = AsyncStorage.setItem('To Dos', JSON.stringify(newItem));
-      };
-
+    };
 
     render() {
-        const { inputValue } = this.state;
+        const { inputValue, loadingItems, allItems } = this.state;
         return (
             <LinearGradient colors={primaryGradientArray} style={styles.container}>
                 <StatusBar barStyle="light-content" />
@@ -133,12 +129,24 @@ export default class Main extends React.Component {
                 </View>
 
                 <View style={styles.inputContainer}>
-                    <Input inputValue={inputValue} onchangeText={this.newInputValue} />
+                    <SubTitle subtitle="What's next?" />
+                    <Input 
+                        inputValue={inputValue} 
+                        onchangeText={this.newInputValue}
+                        onDoneAddItem={this.onDoneAddItem} />
                 </View>
 
                 <View style={styles.list}>
-                    <ScrollView contentContainerStyle={styles.scrollableList}>
-                        {Object.values({allItems})
+                    <View style={styles.column}>
+                        <SubTitle subtitle="Recent Note" />
+                        <View style={styles.deleteAllButton}>
+                            <Button deleteAllItems={this.deleteAllItems} />
+                        </View>
+                    </View>
+
+                    { loadingItems ? (
+                        <ScrollView contentContainerStyle={styles.scrollableList}>
+                        {Object.values(allItems)
                             .reverse()
                             .map(item => (
                                 <List
@@ -149,7 +157,10 @@ export default class Main extends React.Component {
                                     incompleteItem={this.incompleteItem}
                                 />
                             ))}
-                    </ScrollView>
+                        </ScrollView>
+                    ) : (
+                        <ActivityIndicator size="large" color='white' />
+                    )}
                 </View>
             </LinearGradient>
         );
@@ -174,5 +185,13 @@ const styles = StyleSheet.create({
     },
     scrollableList: {
         marginTop: 15
+    },
+    column: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    deleteAllButton: {
+        marginRight: 40
     }
 });
